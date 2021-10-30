@@ -79,3 +79,60 @@ $ docker start 서버명
 ```shell
 $ docker push aa9919/springboot_test
 ```
+
+# EC2에 배포
+
+## 1. EC2 접 & 도커 설치
+```shell
+$ sudo apt update
+
+// Https 이용해 repository 사용할 수 있도록 필요 패키지 추가
+$ sudo apt install apt-transport-https ca-certificates curl software-properties-common
+
+// 도커 공식 GPG 키 추가
+$ curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+// stable repository 설정 위한 명령어
+$ udo add-apt-repository \
+   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
+   $(lsb_release -cs) \
+   stable"
+   
+// 패키지 업데이트
+$ sudo apt update
+
+// docker engine, containered 최신버전 설치
+$ sudo apt-get install docker-ce docker-ce-cli containerd.io
+
+// 테스트 도커 이미지 구동
+$ sudo docker run hello-world
+
+// 해당 이미지 컨테이너 아이디 확인
+$ sudo docker ps -a
+
+// 테스트 도커 컨테이너 삭제
+$ sudo docker rm [테스트 컨테이너 아이디]
+```
+
+## 2. 도커 허브에 올라간 도커 이미지 Pull 받기
+```shell
+$ sudo docker pull [아이디]/[레포명]
+```
+## 3. 컨테이너 구동 명령어로 도커 이미지 배포
+```shell
+$ sudo docker run -p [외부 포트:컨테이너 내부 포트] [이미지명]
+```
+## 추가
+````shell
+// 구동 중인 컨테이너 확인
+$ sudo docker ps -a
+
+// 컨테이너 삭제 
+$ sudo docker rm [컨테이너 아이디]
+
+// 생성된 도커 이미지 목록 확인
+$ sudo docker images
+
+// 도커 이미지 삭제
+$ sudo docker rmi [이미지명]:[Tag]
+````
